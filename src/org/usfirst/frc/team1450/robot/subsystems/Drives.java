@@ -6,6 +6,7 @@ import org.usfirst.frc.team1450.robot.RobotMap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -20,12 +21,14 @@ public class Drives extends Subsystem {
 			leftDrive = new CANTalon(RobotMap.leftDrive);
 			leftDrive.enableBrakeMode(true);
 			leftDrive.reverseOutput(false);	//closed loop method
+			leftDrive.setInverted(false);
 		}
 		if (rightDrive == null)
 		{
 			rightDrive = new CANTalon(RobotMap.rightDrive);
 			rightDrive.enableBrakeMode(true);
 			rightDrive.reverseOutput(false);	//closed loop method
+			rightDrive.setInverted(false);
 		}
 		if (robotDrive == null)
 		{
@@ -37,9 +40,19 @@ public class Drives extends Subsystem {
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
+	public void GetDriveMotorStats()
+	{
+		SmartDashboard.putNumber("leftDriveCurrent", leftDrive.getOutputCurrent());
+		SmartDashboard.putNumber("leftDriveTemperature", leftDrive.getTemperature());
+		SmartDashboard.putNumber("leftDriveVolt", leftDrive.getOutputVoltage());
+		SmartDashboard.putNumber("rightDriveCurrent", rightDrive.getOutputCurrent());
+		SmartDashboard.putNumber("rightDriveTemperature", rightDrive.getTemperature());
+		SmartDashboard.putNumber("rightDriveVolt", rightDrive.getOutputVoltage());
+	}
+	
 	public void ArcadeDrive(double yAxis, double xAxis)
 	{
-		robotDrive.arcadeDrive(yAxis, xAxis, true);
+		robotDrive.arcadeDrive(-yAxis, -xAxis, true);
 	}
 	
 	public void Off()

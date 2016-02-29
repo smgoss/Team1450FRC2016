@@ -150,7 +150,7 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumber("POV", oi.controller1.getPOV());
 		SmartDashboard.putNumber("GyroAngle", gyro.getAngle());
-
+		drives.GetDriveMotorStats();
 		if (oi.controller1.getPOV() == 0.0) {
 			armControl.UpCommand();
 		} else {
