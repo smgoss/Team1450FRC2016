@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -41,6 +42,8 @@ public class Robot extends IterativeRobot {
 	Compressor c;
 	CameraServer camServ;
 	ADXRS450_Gyro gyro;
+	Servo camServoY;
+	Servo camServoX;
 
 	Command autonomousCommand;
 	SendableChooser chooser;
@@ -78,6 +81,8 @@ public class Robot extends IterativeRobot {
         gyro = new ADXRS450_Gyro();
 		chooser.addObject("Drive Forward", new DriveForward());
 		chooser.addObject("Drive Backwards", new DriveBackwards());
+		camServoY = new Servo(1);
+		camServoX = new Servo(0);
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 
@@ -164,6 +169,8 @@ public class Robot extends IterativeRobot {
 		//drives.ArcadeDrive(lowPassFilteredSpeed, oi.controller1.getX(Hand.kLeft));	//drives with lowPassFilter
 		drives.ArcadeDrive(oi.controller1.getY(Hand.kLeft), oi.controller1.getX(Hand.kLeft));
 		tower.Move(oi.controller1.getRawAxis(RobotMap.xBoxRightY));
+		camServoX.set(((oi.controller2.getRawAxis(RobotMap.xBoxLeftX)*-1)+1)/2);
+    	camServoY.set((oi.controller2.getRawAxis(RobotMap.xBoxLeftY)+1)/2);
 	}
 
 	/**
