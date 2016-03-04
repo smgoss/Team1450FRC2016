@@ -176,6 +176,22 @@ public class Robot extends IterativeRobot {
 		camYFiltered += (oi.controller2.getRawAxis(RobotMap.xBoxLeftY) - camYFiltered) * 0.3;
 		camXPosition += camXFiltered;
 		camYPosition += camYFiltered;
+		if (camXPosition > 1)
+		{
+			camXPosition=1;
+		}
+		if (camXPosition < -1)
+		{
+			camXPosition=-1;
+		}
+		if (camYPosition > 1)
+		{
+			camYPosition=1;
+		}
+		if (camYPosition < -1)
+		{
+			camYPosition=-1;
+		}
 		//drives.ArcadeDrive(lowPassFilteredSpeed, oi.controller1.getX(Hand.kLeft));	//drives with lowPassFilter
 		drives.ArcadeDrive(oi.controller1.getY(Hand.kLeft), oi.controller1.getX(Hand.kLeft));
 		tower.Move(oi.controller1.getRawAxis(RobotMap.xBoxRightY));
