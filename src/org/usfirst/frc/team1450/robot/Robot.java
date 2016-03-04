@@ -83,6 +83,8 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Drive Backwards", new DriveBackwards());
 		camServoY = new Servo(1);
 		camServoX = new Servo(0);
+		camServoX.set(0.5);
+		camServoY.set(0.5);
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 
@@ -149,6 +151,8 @@ public class Robot extends IterativeRobot {
 	double lowPassFilteredSpeed = 0.0;
 	double camXFiltered = 0.0;
 	double camYFiltered = 0.0;
+	double camXPosition=0.5;
+	double camYPosition=0.5;
 	
 	/**
 	 * This function is called periodically during operator control
@@ -168,13 +172,15 @@ public class Robot extends IterativeRobot {
 			}
 		}
 		lowPassFilteredSpeed += (oi.controller1.getY(Hand.kLeft) - lowPassFilteredSpeed) * 0.3;
-		camXFiltered += ((((oi.controller2.getRawAxis(RobotMap.xBoxLeftX)*-1)+1)/2) - camXFiltered) * 0.3;
-		camYFiltered += (((oi.controller2.getRawAxis(RobotMap.xBoxLeftY)+1)/2) - camYFiltered) * 0.3;
+		camXFiltered += ((oi.controller2.getRawAxis(RobotMap.xBoxLeftX)*-1) - camXFiltered) * 0.3;
+		camYFiltered += (oi.controller2.getRawAxis(RobotMap.xBoxLeftY) - camYFiltered) * 0.3;
+		camXPosition += camXFiltered;
+		camYPosition += camYFiltered;
 		//drives.ArcadeDrive(lowPassFilteredSpeed, oi.controller1.getX(Hand.kLeft));	//drives with lowPassFilter
 		drives.ArcadeDrive(oi.controller1.getY(Hand.kLeft), oi.controller1.getX(Hand.kLeft));
 		tower.Move(oi.controller1.getRawAxis(RobotMap.xBoxRightY));
-		camServoX.set(camXFiltered);
-    	camServoY.set(camYFiltered);
+		camServoX.set(camXPosition);
+    	camServoY.set(camYPosition);
 	}
 
 	/**
