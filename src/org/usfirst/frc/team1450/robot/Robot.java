@@ -174,8 +174,8 @@ public class Robot extends IterativeRobot {
 		lowPassFilteredSpeed += (oi.controller1.getY(Hand.kLeft) - lowPassFilteredSpeed) * 0.3;
 		camXFiltered += ((oi.controller2.getRawAxis(RobotMap.xBoxLeftX)*-1) - camXFiltered) * 0.3;
 		camYFiltered += (oi.controller2.getRawAxis(RobotMap.xBoxLeftY) - camYFiltered) * 0.3;
-		camXPosition += camXFiltered;
-		camYPosition += camYFiltered;
+		camXPosition += camXFiltered/10;
+		camYPosition += camYFiltered/10;
 		if (camXPosition > 1)
 		{
 			camXPosition=1;
