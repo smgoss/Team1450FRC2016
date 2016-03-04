@@ -147,6 +147,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	double lowPassFilteredSpeed = 0.0;
+	double camXFiltered = 0.0;
+	double camYFiltered = 0.0;
 	
 	/**
 	 * This function is called periodically during operator control
@@ -166,11 +168,13 @@ public class Robot extends IterativeRobot {
 			}
 		}
 		lowPassFilteredSpeed += (oi.controller1.getY(Hand.kLeft) - lowPassFilteredSpeed) * 0.3;
+		camXFiltered += ((((oi.controller2.getRawAxis(RobotMap.xBoxLeftX)*-1)+1)/2) - camXFiltered) * 0.3;
+		camYFiltered += (((oi.controller2.getRawAxis(RobotMap.xBoxLeftY)+1)/2) - camYFiltered) * 0.3;
 		//drives.ArcadeDrive(lowPassFilteredSpeed, oi.controller1.getX(Hand.kLeft));	//drives with lowPassFilter
 		drives.ArcadeDrive(oi.controller1.getY(Hand.kLeft), oi.controller1.getX(Hand.kLeft));
 		tower.Move(oi.controller1.getRawAxis(RobotMap.xBoxRightY));
-		camServoX.set(((oi.controller2.getRawAxis(RobotMap.xBoxLeftX)*-1)+1)/2);
-    	camServoY.set((oi.controller2.getRawAxis(RobotMap.xBoxLeftY)+1)/2);
+		camServoX.set(camXFiltered);
+    	camServoY.set(camYFiltered);
 	}
 
 	/**
